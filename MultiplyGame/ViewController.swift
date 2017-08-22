@@ -41,23 +41,23 @@ class ViewController: UIViewController {
     var multiplier = 0
     
     //MARK:Actions
-    @IBAction func startAction(sender: AnyObject) {
+    @IBAction func startAction(_ sender: AnyObject) {
         
         let button = sender as! UIButton
-        if button.titleForState(.Normal) == resetButtonTitle {
+        if button.title(for: UIControlState()) == resetButtonTitle {
             resetGame()
         }else {
-            startButton.setTitle(nextButtonTitle, forState: .Normal)
+            startButton.setTitle(nextButtonTitle, for: UIControlState())
             nextQuestion()
         }
         
     }
-    @IBAction func selectedAnswer(sender: AnyObject) {
+    @IBAction func selectedAnswer(_ sender: AnyObject) {
         let segmentControl = sender as! UISegmentedControl
         
         let correctAnswer = "\(result)"
         
-        let selectedTitle = self.segmentControl.titleForSegmentAtIndex(segmentControl.selectedSegmentIndex)
+        let selectedTitle = self.segmentControl.titleForSegment(at: segmentControl.selectedSegmentIndex)
         
         if correctAnswer == selectedTitle {
             correct()
@@ -77,7 +77,7 @@ class ViewController: UIViewController {
         
         segmentControl.removeAllSegments()
         for i in 0...numberOfAnswers - 1 {
-            segmentControl.insertSegmentWithTitle("", atIndex: i, animated: true)
+            segmentControl.insertSegment(withTitle: "", at: i, animated: true)
         }
         
         resetGame()
@@ -121,25 +121,25 @@ class ViewController: UIViewController {
         multiplierLabel.text = "\(multiplier)"
         multiplicandLabel.text = "\(multiplicand)"
         resultLabel.text = "\(result)"
-        multiplierLabel.hidden = false
-        multiplicandLabel.hidden = false
-        resultLabel.hidden = true
+        multiplierLabel.isHidden = false
+        multiplicandLabel.isHidden = false
+        resultLabel.isHidden = true
         
-        correctOrWrongLabel.hidden = true
+        correctOrWrongLabel.isHidden = true
         
-        self.segmentControl.enabled = true
+        self.segmentControl.isEnabled = true
         self.segmentControl.selectedSegmentIndex = -1
-        self.segmentControl.tintColor = UIColor.blueColor()
+        self.segmentControl.tintColor = UIColor.blue
         
         for i in 0...numberOfAnswers - 1 {
-            segmentControl.setTitle("\(answers[i])", forSegmentAtIndex: i)
+            segmentControl.setTitle("\(answers[i])", forSegmentAt: i)
         }
         answers.removeAll()
-        self.startButton.enabled = false
+        self.startButton.isEnabled = false
         
         if totalQuestions == questionsNeededToReset {
             
-            startButton.setTitle(resetButtonTitle, forState: .Normal)
+            startButton.setTitle(resetButtonTitle, for: UIControlState())
             self.correctOrWrongLabel.text = completedLabelText
         }
        
@@ -156,18 +156,18 @@ class ViewController: UIViewController {
      */
     func correct()
     {
-        self.segmentControl.enabled = false
-        self.segmentControl.tintColor = UIColor.greenColor()
+        self.segmentControl.isEnabled = false
+        self.segmentControl.tintColor = UIColor.green
         
-        correctOrWrongLabel.hidden = false
+        correctOrWrongLabel.isHidden = false
         correctOrWrongLabel.text = correctLabelText
-        correctOrWrongLabel.textColor = UIColor.greenColor()
-        resultLabel.hidden = false
+        correctOrWrongLabel.textColor = UIColor.green
+        resultLabel.isHidden = false
         
         numberOfQuestionsCorrect += 1
        
         
-        self.startButton.enabled = true
+        self.startButton.isEnabled = true
         
         
     }
@@ -177,14 +177,14 @@ class ViewController: UIViewController {
      */
     func wrong()
     {
-        self.segmentControl.enabled = false
-        self.segmentControl.tintColor = UIColor.redColor()
+        self.segmentControl.isEnabled = false
+        self.segmentControl.tintColor = UIColor.red
         
         correctOrWrongLabel.text = wrongLabelText
-        correctOrWrongLabel.textColor = UIColor.redColor()
-        correctOrWrongLabel.hidden = false
+        correctOrWrongLabel.textColor = UIColor.red
+        correctOrWrongLabel.isHidden = false
         
-        self.startButton.enabled = true
+        self.startButton.isEnabled = true
         
     }
     
@@ -199,22 +199,22 @@ class ViewController: UIViewController {
         correctionsCorrectLabel.text = "\(numberOfQuestionsCorrect)/\(totalQuestions) Correct"
         
         for i in 0..<segmentControl.numberOfSegments {
-            segmentControl.setTitle("", forSegmentAtIndex: i)
+            segmentControl.setTitle("", forSegmentAt: i)
         }
-        self.startButton.setTitle(startButtonTitle, forState: .Normal)
+        self.startButton.setTitle(startButtonTitle, for: UIControlState())
    
-        self.multiplicandLabel.hidden = true
-        self.multiplierLabel.hidden = true
-        self.resultLabel.hidden = true
+        self.multiplicandLabel.isHidden = true
+        self.multiplierLabel.isHidden = true
+        self.resultLabel.isHidden = true
 
-        self.correctOrWrongLabel.hidden = true
+        self.correctOrWrongLabel.isHidden = true
         
-        self.segmentControl.enabled = false
+        self.segmentControl.isEnabled = false
         self.segmentControl.selectedSegmentIndex = -1
-        self.segmentControl.tintColor = UIColor.blueColor()
+        self.segmentControl.tintColor = UIColor.blue
         
         self.progressView.setProgress(0.0, animated: true)
-        self.progressView.tintColor = UIColor.redColor()
+        self.progressView.tintColor = UIColor.red
         
     }
     
@@ -225,10 +225,10 @@ class ViewController: UIViewController {
     {
         let progress = (Float(totalQuestions)/Float(questionsNeededToReset))
         if progress == 0.5 {
-            self.progressView.tintColor = UIColor.orangeColor()
+            self.progressView.tintColor = UIColor.orange
         }
         if progress == 1.0 {
-            self.progressView.tintColor = UIColor.greenColor()
+            self.progressView.tintColor = UIColor.green
         }
         self.progressView.setProgress(progress, animated: true)
     }
